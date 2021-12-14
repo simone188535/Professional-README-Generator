@@ -1,9 +1,11 @@
 // TODO: Include packages needed for this application
 const fs = require('fs');
 const inquirer = require('inquirer');
+const short = require('short-uuid');
+const shortId = short.generate();
+const path = `./generated-readme/${shortId}`;
 const generateMarkdown  = require('./utils/generateMarkdown');
 
-// TODO: Create an array of questions for user input
 const questions = [
     {
       type: "input",
@@ -57,19 +59,20 @@ const questions = [
       },
 ];
 
-// TODO: Create a function to write README file
 function writeToFile(fileName, data) {
 
     console.log('Creating the README...');
     const generatedMarkup = generateMarkdown(data);
 
-    fs.writeFile(`${fileName}`, generatedMarkup, (err) => {
+    fs.mkdirSync(path, { recursive: true });
+
+    fs.writeFile(`${path}/${fileName}`, generatedMarkup, (err) => {
         if (err) throw console.error('Something went wrong while generating the README');
         console.log('The file has been created!');
       });
 }
 
-// TODO: Create a function to initialize app
+
 function init() {
     inquirer.prompt(questions).then((response) => {
         console.log(response);
@@ -77,5 +80,4 @@ function init() {
     });
 }
 
-// Function call to initialize app
 init();
