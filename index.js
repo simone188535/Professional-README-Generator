@@ -75,7 +75,6 @@ function writeToFile(fileName, data) {
 
 function init() {
     inquirer.prompt(questions).then((response) => {
-        console.log(response);
         writeToFile('README.md', response);
     });
 }
